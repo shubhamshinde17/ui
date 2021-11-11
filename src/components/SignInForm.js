@@ -26,6 +26,7 @@ export default function SignInForm(props) {
     const location = useLocation();
     const [creds, setCreds] = useState(BLANK_CREDENTIALS);
     const [error, setError] = useState(BLANK_ERROR);
+    const [loggingIn, setLoggingIn] = useState(false);
 
     useEffect(() => {
         if (location.state) {
@@ -39,23 +40,33 @@ export default function SignInForm(props) {
     }, [location.state]);
 
     const loginUser = async (creds) => {
-        const response = await axios.post(`${API_URL}/api/auth/login`, creds, { headers: REQUEST_HEADERS });
-
-        if (response) {
+        setLoggingIn(true);
+        try {
+            const response = await axios.post(`${API_URL}/api/auth/login`, creds, { headers: REQUEST_HEADERS });
             const responseData = response.data;
-            const accessToken = responseData.data.accessToken;
-            const userId = response.data.id;
-            const email = response.data.email;
-            const name = response.data.name;
-            const joiningDate = response.data.joiningDate;
+            if (responseData.code === 200) {
 
-            const NOCTokenDetails = {
-                accessToken, userId, email, name, joiningDate, loggedInOn: new Date()
+                const accessToken = responseData.data.accessToken;
+                const userId = response.data.id;
+                const email = response.data.email;
+                const name = response.data.name;
+                const joiningDate = response.data.joiningDate;
+
+                const NOCTokenDetails = {
+                    accessToken, userId, email, name, joiningDate, loggedInOn: new Date()
+                }
+
+                props.setToken(NOCTokenDetails);
+                history('/home')
+                setLoggingIn(false);
+                return response;
+            } else {
+                setLoggingIn(false);
+                return null;
             }
-
-            props.setToken(NOCTokenDetails);
-            history('/home')
-            return response;
+        } catch (error) {
+            setError({ errorMessage: 'Server Error!', isVisible: true });
+            setLoggingIn(false);
         }
     }
 
@@ -63,7 +74,9 @@ export default function SignInForm(props) {
         e.preventDefault();
         try {
             if (creds.email !== "" && creds.password !== "") {
+
                 await loginUser(creds);
+
             }
 
         } catch (err) {
@@ -90,7 +103,7 @@ export default function SignInForm(props) {
 
     return (
         <div className="form-container sign-in-container">
-            <form className="signInForm" action="#" onSubmit={handleOnSubmit}>
+            <form className="signInForm" onSubmit={handleOnSubmit}>
                 <h1 className="signinTitle">Sign In</h1>
                 <input
                     className="auth-input"
@@ -111,7 +124,7 @@ export default function SignInForm(props) {
                 <button
                     className="signinButton"
                     type="submit">
-                    Sign In
+                    {loggingIn ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign In</span>}
                 </button>
                 <div style={{ visibility: error.isVisible ? "visible" : "hidden", padding: "5% 15%" }}>
                     <h4 style={errorMessageStyles}>{error.errorMessage}</h4>

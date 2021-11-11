@@ -7,9 +7,3 @@
 html {
     font-family: "Montserrat", sans-serif;
 }
-
-body {
-    overflow-x: hidden;
-    background: #eee;
-    padding: 0 16px;
-}
