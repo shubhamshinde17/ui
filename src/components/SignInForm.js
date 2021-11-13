@@ -61,6 +61,9 @@ export default function SignInForm(props) {
                 setLoggingIn(false);
                 return response;
             } else {
+                setTimeout(() => {
+                    setError({ errorMessage: responseData.userMessage, isVisible: true });
+                }, 2000);
                 setLoggingIn(false);
                 return null;
             }
