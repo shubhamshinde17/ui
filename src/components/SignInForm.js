@@ -22,20 +22,25 @@ const errorMessageStyles = {
 }
 
 export default function SignInForm(props) {
-    const history = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
     const [creds, setCreds] = useState(BLANK_CREDENTIALS);
     const [error, setError] = useState(BLANK_ERROR);
     const [loggingIn, setLoggingIn] = useState(false);
-
+    const isMounted = React.useRef(true);
     useEffect(() => {
-        if (location.state) {
-            setCreds(prev => {
-                return {
-                    ...prev,
-                    email: location.state.email
-                };
-            });
+        if (isMounted.current) {
+            if (location.state) {
+                setCreds(prev => {
+                    return {
+                        ...prev,
+                        email: location.state.email
+                    };
+                });
+            }
+            return () => {
+                isMounted.current = false;
+            };
         }
     }, [location.state]);
 
@@ -47,27 +52,26 @@ export default function SignInForm(props) {
             if (responseData.code === 200) {
 
                 const accessToken = responseData.data.accessToken;
-                const userId = response.data.id;
-                const email = response.data.email;
-                const name = response.data.name;
-                const joiningDate = response.data.joiningDate;
+                const userId = responseData.data.id;
+                const email = responseData.data.email;
+                const name = responseData.data.name;
+                const joiningDate = responseData.data.joiningDate;
 
                 const NOCTokenDetails = {
                     accessToken, userId, email, name, joiningDate, loggedInOn: new Date()
                 }
 
                 props.setToken(NOCTokenDetails);
-                history('/home')
+                navigate('/home')
                 setLoggingIn(false);
-                return response;
+                return responseData;
             } else {
-                setTimeout(() => {
-                    setError({ errorMessage: responseData.userMessage, isVisible: true });
-                }, 2000);
                 setLoggingIn(false);
+                setError({ errorMessage: responseData.userMessage, isVisible: true });
                 return null;
             }
         } catch (error) {
+            console.log(error)
             setError({ errorMessage: 'Server Error!', isVisible: true });
             setLoggingIn(false);
         }
@@ -105,30 +109,46 @@ export default function SignInForm(props) {
     }
 
     return (
-        <div className="form-container sign-in-container">
+        <div className="login-wrapper">
             <form className="signInForm" onSubmit={handleOnSubmit}>
                 <h1 className="signinTitle">Sign In</h1>
-                <input
-                    className="auth-input"
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    onChange={handleChange}
-                    value={creds.email}
-                />
-                <input
-                    className="auth-input"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    onChange={handleChange}
-                    value={creds.password}
-                />
-                <button
-                    className="signinButton"
-                    type="submit">
-                    {loggingIn ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign In</span>}
-                </button>
+                <div className="row justify-center">
+                    <input
+                        className="auth-input"
+                        type="email"
+                        placeholder="Email"
+                        name="email"
+                        onChange={handleChange}
+                        value={creds.email}
+                    />
+                </div>
+                <div className="row justify-center">
+
+                    <input
+                        className="auth-input"
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        onChange={handleChange}
+                        value={creds.password}
+                    />
+                </div>
+                <div className="row justify-center">
+                    <div className="col-6 col-lg-6">
+                        <button
+                            className="signinButton"
+                            type="submit">
+                            {loggingIn ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign In</span>}
+                        </button>
+                        <button
+                            disabled={true}
+                            className="signinButton"
+                            type="submit">
+                            {loggingIn ?
+                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign Up</span>}
+                        </button>
+                    </div>
+                </div>
                 <div style={{ visibility: error.isVisible ? "visible" : "hidden", padding: "5% 15%" }}>
                     <h4 style={errorMessageStyles}>{error.errorMessage}</h4>
                 </div>

@@ -4,7 +4,7 @@
 
 .login-wrapper {
     background: #f6f5f7;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -16,6 +16,7 @@
 .signinTitle {
     font-weight: bold;
     margin: 0 0 15px 0;
+    color: white;
 }
 
 .signInMessage {
@@ -42,26 +43,29 @@
 
 .signinButton {
     border-radius: 20px;
-    border: 1px solid #aeff2b;
-    background-color: #00d441;
+    border: 1px solid #440f66;
+    background-color: #8023b9;
+    width: 40%;
     color: #FFFFFF;
-    font-size: 12px;
+    font-size: 20px;
     font-weight: bold;
     padding: 12px 45px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     cursor: pointer;
     transition: box-shadow 0.5s ease-out 100ms;
 }
 
 .signinButton:hover {
-    box-shadow: 10px 5px 5px #dbff0c;
+    box-shadow: 10px 5px 5px #6b13a1;
 }
 
 .signInForm {
-    background-color: #FFFFFF;
-    display: flex;
+    background: linear-gradient(90deg, #440f66, #6b13a1);
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -72,10 +76,10 @@
 
 .auth-input {
     background-color: #eee;
-    border: none;
-    padding: 12px 15px;
+    border-radius: 20px;
+    padding: 15px 20px;
     margin: 8px 0;
-    width: 100%;
+    width: 50%;
 }
 
 .container {
@@ -160,4 +164,8 @@
 .overlay-right {
     right: 0;
     transform: translateX(0);
+}
+
+.justify-center {
+    justify-content: center;
 }

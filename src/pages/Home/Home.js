@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import ValidateUser from "../../utils/ValidateUser";
 
 const Home = () => {
@@ -11,9 +11,11 @@ const Home = () => {
     return (
         <div style={{ display: 'flex' }}>
             <Header />
-            <div>
-                Welcome Home!
-            </div>
+            <section className="home-section">
+                <div className="home-content">
+                    <h5>Hello Home!</h5>
+                </div>
+            </section>
         </div>
     )
 }

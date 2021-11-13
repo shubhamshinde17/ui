@@ -5,7 +5,7 @@ import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import useToken from "./utils/useToken";
 import Logout from './pages/Logout/Logout';
-import Header from './components/Header';
+import Profile from './pages/User/Profile/Profile';
 
 function App() {
   const { token, setToken } = useToken()
@@ -17,6 +17,7 @@ function App() {
           <Route path="/home" element={token ? <Home /> : <Login setToken={setToken} />} />
           <Route path="/login" element={<Login setToken={setToken} />} />
           <Route path="/logout" element={token ? <Logout /> : <Login setToken={setToken} />} />
+          <Route path="/user/profile" element={token ? <Profile /> : <Login setToken={setToken} />} />
           <Route
             path="*"
             element={
