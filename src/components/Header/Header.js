@@ -1,11 +1,42 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import './Header.css'
+import { CURRENT } from "../../constants/ApiEndpoints";
+import { API_URL } from '../../config/envConfig';
+import useToken from '../../utils/useToken';
 
 const Header = () => {
+    const BLANK_ERROR = {
+        errorMessage: "",
+        isVisible: false
+    }
+
+    const USER_DATA = {
+        userId: "",
+        fullName: "",
+        loginId: "",
+        email: "",
+        age: 0,
+    }
+
+    const errorMessageStyles = {
+        textAlign: "center",
+        backgroundColor: "#faafaa",
+        width: "100%",
+        padding: "5% 3%",
+        borderRadius: "15px"
+    }
+    const { token, setToken } = useToken();
+    const [error, setError] = useState(BLANK_ERROR);
+    const [loggingIn, setLoggingIn] = useState(false);
+    const [userData, setUserData] = useState(USER_DATA);
     useEffect(() => {
         let sidebar = document.querySelector(".sidebar");
         sidebar.classList.remove("close");
+        if (token) {
+            getCurrentUser();
+        }
     }, []);
 
     function onArrowClick(e) {
@@ -16,6 +47,21 @@ const Header = () => {
     function onMenuClick() {
         let sidebar = document.querySelector(".sidebar");
         sidebar.classList.toggle("close");
+    }
+
+    async function getCurrentUser() {
+        try {
+            const REQUEST_HEADERS = {
+                'Authorization': `Bearer ${token}`
+            };
+            const response = await axios.post(`${API_URL}${CURRENT}`, {}, { headers: REQUEST_HEADERS });
+            const responseData = response.data;
+            setUserData(() => responseData.data)
+            localStorage.setItem('userData', JSON.stringify(responseData.data));
+        } catch (error) {
+            setError({ errorMessage: 'Server Error!', isVisible: true });
+        }
+
     }
 
     return (
@@ -129,8 +175,8 @@ const Header = () => {
                             <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngitem.com%2Fpimgs%2Fm%2F146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png&f=1&nofb=1" alt="profileImg" />
                         </div>
                         <div className="name-job">
-                            <div className="profile_name">PROFILE_NAME</div>
-                            <div className="job">TAG</div>
+                            <div className="profile_name">{userData.fullName}</div>
+                            <div className="job">{userData.loginId}</div>
                         </div>
                         <Link to="/logout">
                             <i className='bx bx-log-out'></i>

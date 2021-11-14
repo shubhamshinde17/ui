@@ -10,7 +10,7 @@ const Logout = () => {
     })
 
     function logout() {
-        localStorage.removeItem('NOCTokenDetails');
+        localStorage.clear();
         setTimeout(() => {
             navigate('/')
         }, 1000)
