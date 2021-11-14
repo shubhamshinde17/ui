@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { API_URL, REQUEST_HEADERS } from '../config/envConfig';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const BLANK_CREDENTIALS = {
     email: "",
@@ -140,14 +140,17 @@ export default function SignInForm(props) {
                             type="submit">
                             {loggingIn ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign In</span>}
                         </button>
-                        <button
+                        {/* <button
                             disabled={true}
                             className="signinButton"
                             type="submit">
                             {loggingIn ?
                                 <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign Up</span>}
-                        </button>
+                        </button> */}
                     </div>
+                </div>
+                <div className="row justify-center">
+                    <Link to="/signup"> SIGN UP </Link>
                 </div>
                 <div style={{ visibility: error.isVisible ? "visible" : "hidden", padding: "5% 15%" }}>
                     <h4 style={errorMessageStyles}>{error.errorMessage}</h4>
