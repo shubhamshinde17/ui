@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { API_URL, REQUEST_HEADERS } from '../config/envConfig';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { LOGIN } from "../constants/ApiEndpoints";
 
 const BLANK_CREDENTIALS = {
     email: "",
@@ -47,7 +48,7 @@ export default function SignInForm(props) {
     const loginUser = async (creds) => {
         setLoggingIn(true);
         try {
-            const response = await axios.post(`${API_URL}/api/auth/login`, creds, { headers: REQUEST_HEADERS });
+            const response = await axios.post(`${API_URL}${LOGIN}`, creds, { headers: REQUEST_HEADERS });
             const responseData = response.data;
             if (responseData.code === 200) {
 

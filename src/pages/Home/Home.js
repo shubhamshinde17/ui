@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import Header from "../../components/Header/Header";
 import ValidateUser from "../../utils/ValidateUser";
-
+import Header from '../../components/Header/Header';
 const Home = () => {
     const { validate } = ValidateUser();
     useEffect(() => {

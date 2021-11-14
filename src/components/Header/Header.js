@@ -1,7 +1,12 @@
+import React, { useEffect } from 'react'
 import { Link } from "react-router-dom";
 import './Header.css'
 
 const Header = () => {
+    useEffect(() => {
+        let sidebar = document.querySelector(".sidebar");
+        sidebar.classList.remove("close");
+    }, []);
 
     function onArrowClick(e) {
         let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
@@ -14,7 +19,7 @@ const Header = () => {
     }
 
     return (
-        <div className="sidebar close">
+        <div className="sidebar">
             <div className="logo-details">
                 <i onClick={onMenuClick} className='bx bx-menu'></i>
                 <span className="logo_name">SparkTech</span>
@@ -121,7 +126,7 @@ const Header = () => {
                 <li>
                     <div className="profile-details">
                         <div className="profile-content">
-                            <img src="logo192.png" alt="profileImg" />
+                            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.pngitem.com%2Fpimgs%2Fm%2F146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png&f=1&nofb=1" alt="profileImg" />
                         </div>
                         <div className="name-job">
                             <div className="profile_name">PROFILE_NAME</div>
