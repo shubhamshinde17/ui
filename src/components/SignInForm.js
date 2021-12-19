@@ -57,7 +57,8 @@ export default function SignInForm(props) {
                 const email = responseData.data.email;
                 const name = responseData.data.name;
                 const joiningDate = responseData.data.joiningDate;
-
+                sessionStorage.setItem("email", responseData.data.email);
+                sessionStorage.setItem("name", responseData.data.name);
                 const NOCTokenDetails = {
                     accessToken, userId, email, name, joiningDate, loggedInOn: new Date()
                 }
@@ -141,13 +142,6 @@ export default function SignInForm(props) {
                             type="submit">
                             {loggingIn ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign In</span>}
                         </button>
-                        {/* <button
-                            disabled={true}
-                            className="signinButton"
-                            type="submit">
-                            {loggingIn ?
-                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : <span>Sign Up</span>}
-                        </button> */}
                     </div>
                 </div>
                 <div className="row justify-center">

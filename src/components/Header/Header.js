@@ -127,21 +127,6 @@ const Header = () => {
                         <li><Link className="link_name" to="/">Chart</Link></li>
                     </ul>
                 </li>
-                {/* <li>
-                    <div className="iocn-link">
-                        <Link to="/">
-                            <i className='bx bx-plug'></i>
-                            <span className="link_name">Plugins</span>
-                        </Link>
-                        <i className='bx bxs-chevron-down arrow'></i>
-                    </div>
-                    <ul className="sub-menu">
-                        <li><Link className="link_name" to="/">Plugins</Link></li>
-                        <li><Link to="/">UI Face</Link></li>
-                        <li><Link to="/">Pigments</Link></li>
-                        <li><Link to="/">Box Icons</Link></li>
-                    </ul>
-                </li> */}
                 <li>
                     <Link to="/">
                         <i className='bx bx-compass'></i>
